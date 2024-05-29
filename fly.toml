@@ -1,0 +1,35 @@
+# fly.toml app configuration file generated for livebook-rmse on 2024-05-28T23:56:49+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'livebook-rmse'
+primary_region = 'fra'
+
+[build]
+  image = 'ghcr.io/livebook-dev/livebook:0.12.1'
+
+[env]
+  ELIXIR_ERL_OPTIONS = '-proto_dist inet6_tcp'
+  LIVEBOOK_DATA_PATH = '/data'
+  LIVEBOOK_HOME = '/data'
+  LIVEBOOK_IP = '::'
+  LIVEBOOK_ROOT_PATH = '/data'
+  PORT = '8080'
+
+[[mounts]]
+  source = 'data'
+  destination = '/data'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '2gb'
+  cpu_kind = 'shared'
+  cpus = 2
